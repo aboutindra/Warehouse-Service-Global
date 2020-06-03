@@ -24,6 +24,10 @@ type DataMaster struct {
 	Sub     []DataSub          `json:"sub" bson:"sub"`
 }
 
+type DataArrSub struct {
+	Data []DataSub `json:"data" bson:"data"`
+}
+
 type DataRequest struct {
 	Data DataMaster `json:"data" bson:"data"`
 	Sta  bool       `json:"sta" bson:"sta"`
@@ -58,11 +62,15 @@ type DataOutput struct {
 }
 
 type DataReject struct {
-	Id     primitive.ObjectID `json:"_id" bson:"_id"`
-	IdMate string             `json:"idMate" bson:"idMate"`
+	Id     primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	IdMate string             `json:"idMate,omitempty" bson:"idMate, omitempty"`
 	Name   string             `json:"name, omitempty" bson:"name, omitempty"`
 	Model  string             `json:"model, omitempty" bson:"model, omitempty"`
 	Tipe   string             `json:"tipe, omitempty" bson:"tipe,omitempty"`
+}
+
+type DataOutArr struct {
+	Data []DataOutput `json:"data" bson:"data"`
 }
 
 type ResBool struct {

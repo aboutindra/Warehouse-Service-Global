@@ -13,12 +13,14 @@ func (h Http) Record(res http.ResponseWriter, req *http.Request) {
 	var tmpr controller.DataRequest
 	json.NewDecoder(req.Body).Decode(&tmpr)
 
+	//fmt.Println(tmpr)
+
 	//preprare data update sub[]
 	//preprae data Output
 	var tmpo controller.DataOutput
 	var tmpSub controller.DataSub
-	var tmpArrSub []interface{}
-	var tmparro []interface{}
+	var tmpArrSub controller.DataArrSub
+	var tmparro controller.DataOutArr
 	o := 0
 	leng := len(tmpr.Data.Sub)
 	for o < leng {
@@ -28,8 +30,8 @@ func (h Http) Record(res http.ResponseWriter, req *http.Request) {
 		tmpo.Name = tmpr.Data.Sub[o].Name
 		tmpSub.Qty = tmpr.Data.Sub[o].Qty
 		tmpo.Qty = tmpr.Data.Sub[o].Qty
-		tmparro = append(tmparro, tmpo)
-		tmpArrSub = append(tmpArrSub, tmpSub)
+		tmparro.Data = append(tmparro.Data, tmpo)
+		tmpArrSub.Data = append(tmpArrSub.Data, tmpSub)
 		o++
 	}
 
@@ -49,7 +51,7 @@ func (h Http) Record(res http.ResponseWriter, req *http.Request) {
 		var tmpStok controller.ItemStok
 
 		tmpFind.Data = tmpr.Data.IdMate
-		tmpStok.Data = tmpr.Data.Stok
+		tmpStok.Data = tmpr.Data.Stok + 1
 		tmpSubUpdate.Find = tmpFind
 		tmpSubUpdate.Set = tmpStok
 
@@ -75,9 +77,9 @@ func (h Http) Record(res http.ResponseWriter, req *http.Request) {
 
 		go h.OutputAction(tmparro, &wg)
 
-		go h.MasterMinusAction(tmpArrSub, &wg)
-
 		go h.InputReject(tmpre, &wg)
+
+		go h.MasterMinusAction(tmpArrSub, &wg)
 
 	}
 

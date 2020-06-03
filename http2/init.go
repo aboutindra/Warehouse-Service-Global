@@ -3,6 +3,7 @@ package http2
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"sync"
 	"wglobal/controller"
@@ -28,7 +29,7 @@ func (h Http) InputAction(payload controller.DataInput, wg *sync.WaitGroup) {
 
 }
 
-func (h Http) OutputAction(payload []interface{}, wg *sync.WaitGroup) {
+func (h Http) OutputAction(payload controller.DataOutArr, wg *sync.WaitGroup) {
 
 	reqb, _ := json.Marshal(payload)
 
@@ -58,7 +59,9 @@ func (h Http) MasterPlusAction(payload controller.FormatUpdateStok, wg *sync.Wai
 
 }
 
-func (h Http) MasterMinusAction(payload []interface{}, wg *sync.WaitGroup) {
+func (h Http) MasterMinusAction(payload controller.DataArrSub, wg *sync.WaitGroup) {
+
+	fmt.Println(payload)
 
 	reqb, _ := json.Marshal(payload)
 
