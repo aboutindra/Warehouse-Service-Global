@@ -21,7 +21,7 @@ func (h Http) InputAction(payload controller.DataInput, wg *sync.WaitGroup) {
 
 	reqb, _ := json.Marshal(payload)
 
-	resp, _ := http.Post("http://localhost:8554/v1/api/ino", "application/json", bytes.NewBuffer(reqb))
+	resp, _ := http.Post("http://mongo:8554/v1/api/ino", "application/json", bytes.NewBuffer(reqb))
 
 	defer resp.Body.Close()
 
